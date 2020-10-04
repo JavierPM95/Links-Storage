@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+//Imports Terceras
+import './firebase'
+import 'bootswatch/dist/pulse/bootstrap.min.css'
 
 ReactDOM.render(
   <React.StrictMode>

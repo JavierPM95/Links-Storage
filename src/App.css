@@ -1,3 +1,11 @@
+body {
+  background: no-repeat linear-gradient(#330570, #710067	);
+}
+
+.title, .subtitle {
+  color: #ffffff;
+}
+
 .App {
   text-align: center;
 }

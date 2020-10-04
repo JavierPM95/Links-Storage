@@ -1,25 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+//Imports
+import Links from './components/Links';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  <div className="container p-4">
+    <h1 className="title">Links Storage <span role="img" >🚀</span></h1>
+    <h2 className="subtitle pb-4">Manage multiples links and save them. All thanks to FireBase</h2>
+    <div className="row">
+      <Links/>
+      <ToastContainer/>
     </div>
+  </div>
   );
 }
 
