@@ -11,7 +11,7 @@ function App() {
   return (
   <div className="container p-4">
     <h1 className="title">Links Storage <span role="img">🚀</span></h1>
-    <h2 className="subtitle pb-4">Manage multiple links and save them. All thanks to FireBase</h2>
+    <h2 className="subtitle pb-4">Manage multiples links and save them. All thanks to FireBase</h2>
     <div className="row">
       <Links/>
       <ToastContainer/>
