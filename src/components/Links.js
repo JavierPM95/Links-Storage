@@ -55,8 +55,8 @@ useEffect(() => {
                              <i className="material-icons text-danger" onClick={() => deleteLink(link.id)}>close</i>
                              </div>
                              </div>
-                            <p> {link.description} </p>
-                            <a href="{link.url}" target="_blank">Go to {link.name}</a>
+                            <p>{link.description} </p>
+                            <a className="btn btn-sm btn-primary" href={link.url} target="_blank" rel="noopener noreferrer">Go to {link.name}</a>
                          </div>
                      </div>
                  ))}
