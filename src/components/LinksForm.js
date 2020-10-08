@@ -44,7 +44,7 @@ useEffect(() => {
     } else {
         getLinkById(props.currentId)
     }
-}, [props.currentId])
+}, [props.currentId, initialStateValues])
 
 
     return (

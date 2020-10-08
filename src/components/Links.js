@@ -7,6 +7,13 @@ import {Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, But
 
 
 const Links = () => {
+       const initialStateValues = {
+            url: "",
+            name: "",
+            description: "",
+        };
+    
+    const [values, setValues] = useState(initialStateValues)
     const [links, setLinks] = useState([])
     const [currentId, setCurrentId] = useState('')
     const [openModal, setopenModal] = useState(false)
@@ -21,9 +28,9 @@ const Links = () => {
         }
     }
 
-//    const modified = async (linkObject) => {
-//        await fs.collection('links').doc(currentId).update(linkObject)
-//    }
+    const modified = async (linkObject) => {
+        await fs.collection('links').doc(currentId).update(linkObject)
+    }
 
     const deleteLink = async (id) => {
         if (window.confirm("Are you sure do you want to delete this link?")) {
@@ -42,10 +49,22 @@ const Links = () => {
     })
 }
 
+const handleSubmit = (e) => {
+    e.preventDefault();
+}
+const handleInputChange = (e) => {
+    const {name, value} =e.target;
+    setValues({...values, [name]: value})
+};
 
+const getLinkById = async (id) => {
+    const doc = await fs.collection('links').doc(id).get();
+    setValues({...doc.data()})
+}
 useEffect(() => {
     getLinks();
-}, [])
+  if (currentId !== "" )  getLinkById(currentId);
+}, [currentId])
 
 const openModified = () => {
     setopenModal(!openModal)
@@ -57,7 +76,7 @@ const openModified = () => {
                 <LinksForm {...{addOrEditLink, currentId, links}} />
             </div> 
             <div className="col-md-8 p-2">
-                 {links.map((link, currentId) => (
+                 {links.map((link) => (
                      <div className="card mb-3" key={link.id}>
                          <div className="card-body">
                              <div className="d-flex justify-content-between">
@@ -75,32 +94,7 @@ const openModified = () => {
                     </div>
 
                     <div>
-                    <Modal isOpen={openModal}>
-                        <ModalHeader>
-                            <h2>What do you like to modified?</h2>                    
-                        </ModalHeader>
-
-                        <ModalBody>
-                            <FormGroup>
-                                <Label for="urlAdress">Url Address</Label>
-                                <Input type="text" id="urlAddress" name="url" value={link.url} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="websiteName">Website Name</Label>
-                                <Input type="text" id="websiteName" name="name" value={link.name} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="description">Url Address</Label>
-                                <Input type="textarea" name="description" id="description" rows="3" placehorlder="Brief description of the page" value={link.description}/>
-                            </FormGroup>
-
-                        </ModalBody>
-
-                        <ModalFooter>
-                            <Button color="primary">Update</Button>
-                            <Button color="secondary" onClick={() => openModified()}>Close</Button>
-                         </ModalFooter>
-                    </Modal>
+                    
                     </div>
 
                      </div>
@@ -108,7 +102,32 @@ const openModified = () => {
                  ))}
                  
 
-                   
+                 <Modal isOpen={openModal} onSubmit={handleSubmit}>
+                        <ModalHeader>
+                            <h2>What do you like to modified?</h2>                    
+                        </ModalHeader>
+
+                        <ModalBody>
+                            <FormGroup>
+                                <Label for="urlAdress">Url Address</Label>
+                                <Input type="text" id="urlAddress" name="url" onChange={handleInputChange} value={values.url} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="websiteName">Website Name</Label>
+                                <Input type="text" id="websiteName" name="name" onChange={handleInputChange} value={values.name} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="description">Url Address</Label>
+                                <Input type="textarea" name="description" id="description" rows="3" placehorlder="Brief description of the page" onChange={handleInputChange} value={values.description}/>
+                            </FormGroup>
+
+                        </ModalBody>
+
+                        <ModalFooter>
+                            <Button color="primary" onClick={() => modified()} >Update</Button>
+                            <Button color="secondary" onClick={() => openModified()}>Close</Button>
+                         </ModalFooter>
+                    </Modal>
 
             </div>
             
