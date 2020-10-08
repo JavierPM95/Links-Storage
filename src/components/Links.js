@@ -2,10 +2,14 @@ import React, { useEffect, useState} from 'react'
 import LinksForm from './LinksForm'
 import {fs} from '../firebase'
 import {toast} from 'react-toastify'
+import {Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label, Button} from 'reactstrap'
+
+
 
 const Links = () => {
     const [links, setLinks] = useState([])
     const [currentId, setCurrentId] = useState('')
+    const [openModal, setopenModal] = useState(false)
 
     const addOrEditLink = async (linkObject) => {
         if (currentId === '') {
@@ -17,13 +21,16 @@ const Links = () => {
         }
     }
 
+//    const modified = async (linkObject) => {
+//        await fs.collection('links').doc(currentId).update(linkObject)
+//    }
+
     const deleteLink = async (id) => {
         if (window.confirm("Are you sure do you want to delete this link?")) {
             await fs.collection('links').doc(id).delete();
             toast('Link deleted', {type: 'error'})
         }
     }
-
 
     const getLinks = () => {
     fs.collection('links').onSnapshot((querySnapshot) => {
@@ -35,9 +42,14 @@ const Links = () => {
     })
 }
 
+
 useEffect(() => {
     getLinks();
 }, [])
+
+const openModified = () => {
+    setopenModal(!openModal)
+}
 
     return (
         <>
@@ -45,8 +57,8 @@ useEffect(() => {
                 <LinksForm {...{addOrEditLink, currentId, links}} />
             </div> 
             <div className="col-md-8 p-2">
-                 {links.map((link) => (
-                     <div className="card mb-1" key={link.id}>
+                 {links.map((link, currentId) => (
+                     <div className="card mb-3" key={link.id}>
                          <div className="card-body">
                              <div className="d-flex justify-content-between">
                              <h4>{link.name}</h4>
@@ -58,9 +70,48 @@ useEffect(() => {
                             <p>{link.description} </p>
                             <a className="btn btn-sm btn-primary" href={link.url} target="_blank" rel="noopener noreferrer">Go to {link.name}</a>
                          </div>
+                         <div>
+                        <button className="btn btn-secondary" onClick={() => { openModified(); setCurrentId(link.id);}}>Modified</button>
+                    </div>
+
+                    <div>
+                    <Modal isOpen={openModal}>
+                        <ModalHeader>
+                            <h2>What do you like to modified?</h2>                    
+                        </ModalHeader>
+
+                        <ModalBody>
+                            <FormGroup>
+                                <Label for="urlAdress">Url Address</Label>
+                                <Input type="text" id="urlAddress" name="url" value={link.url} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="websiteName">Website Name</Label>
+                                <Input type="text" id="websiteName" name="name" value={link.name} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="description">Url Address</Label>
+                                <Input type="textarea" name="description" id="description" rows="3" placehorlder="Brief description of the page" value={link.description}/>
+                            </FormGroup>
+
+                        </ModalBody>
+
+                        <ModalFooter>
+                            <Button color="primary">Update</Button>
+                            <Button color="secondary" onClick={() => openModified()}>Close</Button>
+                         </ModalFooter>
+                    </Modal>
+                    </div>
+
                      </div>
+                     
                  ))}
+                 
+
+                   
+
             </div>
+            
         </>
     )
 }
