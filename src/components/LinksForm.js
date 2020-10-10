@@ -28,9 +28,8 @@ const validateUrl = (str) => {
         if (!validateUrl(values.url)) {
             return toast('Invalid URL', {type: 'warning'})
         } 
-
         props.addOrEditLink(values);
-        setValues({...initialStateValues})
+        setValues({initialStateValues})
     }
 
     const getLinkById = async (id) => {
@@ -40,11 +39,11 @@ const validateUrl = (str) => {
 
 useEffect(() => {
     if (props.currentId === '') {
-        setValues({...initialStateValues})
+        setValues({...props.initialStateValues})
     } else {
-        getLinkById(props.currentId)
+       getLinkById(props.currentId)
     }
-}, [props.currentId, initialStateValues])
+}, [props.currentId, props.initialStateValues])
 
 
     return (
@@ -59,7 +58,7 @@ useEffect(() => {
                 placeholder="https://someurl.com"
                 name="url"
                 onChange={handleInputChange}
-                value={values.url}
+            
                 />
             </div>
             <div className="form-group input-group">
@@ -72,7 +71,7 @@ useEffect(() => {
                     name="name"
                     placeholder="Website name"
                     onChange={handleInputChange}
-                    value={values.name}
+                
                     />
             </div>
             <div className="form-group">
@@ -82,13 +81,13 @@ useEffect(() => {
                 rows="3"
                 placeholder="Brief description of the webpage"
                 onChange={handleInputChange}
-                value={values.description}
+                
                 ></textarea>
             </div>
 
             <div>
                 <button className="btn btn-primary btn-lg btn-block">
-                    {props.currentId === '' ? 'Save' : ('Update')}
+                    Create new user
                 </button>
             </div>
         </form>
