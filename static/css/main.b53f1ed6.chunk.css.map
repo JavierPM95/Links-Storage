@@ -1,0 +1,1 @@
+{"version":3,"sources":["App.css"],"names":[],"mappings":"AAAA,KACE,qDACF,CAEA,iBACE,UACF,CAEA,MACE,oBACF","file":"main.b53f1ed6.chunk.css","sourcesContent":["body {\n  background: no-repeat linear-gradient(#330570, #710067\t);\n}\n\n.title, .subtitle {\n  color: #ffffff;\n}\n\n.card {\n  border-radius: 0.25rem;\n}"]}
